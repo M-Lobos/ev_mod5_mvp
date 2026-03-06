@@ -1,0 +1,27 @@
+
+*** MODELO MVP ***
+En MVP, la Vista y el Presenter no se conocen directamente; se comunican a través de una Interface.
+    - Qué hace cada elemento
+    Vista (ej: showProducts(list), MapsToDetail(product))
+    Presenter (ej: onProductClicked(product)).
+    Modelo (ej: val id:int, val  nombre : String, etc )
+
+    La actividad, requiere una lista dinámica en la vista
+
+Pasos lógicos
+    1) Configurar el RV en el homePresenter (que será invocado en el MainActivity)
+    2) Crear un ADAPTER que infle el diseño
+         Implementar un clickListener para que el FRAGMENT sepa qué zapato se clicó
+
+    3) Conexión de pantallas
+        configurar el paso de datos, debe pasar el producto completo
+
+    4) Persistencia en el carrito
+
+
+NOTA:
+En el concepto model, shoes es el modelo de datos del producto(data class), mientras que Cartmanager
+es el modelo de lógica para los datos (repositorio). El presenter implementa la lógica que comunica
+Shoes con la view
+
+En el mvp la interfaz en sí es el contrato

@@ -1,15 +1,23 @@
-package com.lobosmanuel.ev_mod5_mvp
+package com.lobosmanuel.ev_mod5_mvp.view
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
+import com.lobosmanuel.ev_mod5_mvp.R
 import com.lobosmanuel.ev_mod5_mvp.databinding.ActivityMainBinding
+
+
+
+
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
