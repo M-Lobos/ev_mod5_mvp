@@ -1,6 +1,9 @@
 package com.lobosmanuel.ev_mod5_mvp.presenter
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import com.lobosmanuel.ev_mod5_mvp.model.CartManager
+import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.DetailContract
 
 /**
@@ -16,6 +19,9 @@ import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.DetailContract
  * * @property view Referencia a la interfaz del contrato para actualizar la UI.
  */
 class DetailPresenter(private val view: DetailContract.View) : DetailContract.Presenter {
+
+    // 1. Declaramos la variable para "recordar" el zapato actual
+    private var lastLoadedShoe: Shoes? = null
 
     /**
      * Procesa el [Bundle] recibido desde el fragmento.
@@ -42,6 +48,16 @@ class DetailPresenter(private val view: DetailContract.View) : DetailContract.Pr
      * (Pendiente de conectar con el CartManager en el paso 2 del sumario).
      */
     override fun addToCart() {
-        // Aquí se procesarán las selecciones de talla y color en el futuro
+        // 1. Necesitamos el objeto Shoes.
+        // Podrías guardarlo en una variable de clase cuando se carga en loadProductData
+        val currentShoe = lastLoadedShoe
+
+        if (currentShoe != null) {
+            // 2. Usamos el contexto de la vista (Fragment) para guardar
+            val context = (view as? Fragment)?.context
+            if (context != null) {
+                CartManager.addToCart(context, currentShoe)
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.lobosmanuel.ev_mod5_mvp.presenter.contracts
 
+import android.content.Context
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 
 /**
@@ -19,13 +20,15 @@ interface CartContract {
     }
 
     interface Presenter {
+        // Se agrega el parámetro Context para que coincida con lo que necesita el CartManager
+
         // Solicita los datos al CartManager
-        fun loadCartItems()
+        fun loadCartItems(context: Context)
 
         // Lógica para eliminar un producto (opcional por ahora)
-        fun removeFromCart(shoe: Shoes)
+        fun removeFromCart(context: Context, position: Int)
 
         // Calcula el total sumando los precios
-        fun calculateTotal()
+        fun calculateTotal(context: Context)
     }
 }

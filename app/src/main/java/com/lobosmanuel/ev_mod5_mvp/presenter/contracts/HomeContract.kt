@@ -18,3 +18,11 @@ interface HomeContract {
         fun start()
     }
 }
+
+/**
+ * Diferencias con el Detail
+ *
+ * DetailContract: Se enfoca en recibir datos de un solo producto a través de un Bundle y mostrarlos.
+ *
+ * CartContract: Se enfoca en gestionar una colección de datos (la lista de lo que el usuario eligió).
+ * */

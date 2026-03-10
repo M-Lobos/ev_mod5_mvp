@@ -1,13 +1,16 @@
 package com.lobosmanuel.ev_mod5_mvp.model
+
+import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.CartContract
+import android.content.Context
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
 /**
  * CARTmANAGER
  * Funciona como la cinta de transporte (lógica) de las cajas donde están los datos (shoes),
  * Sólo aquí se necesitan instrucciones sobre el qué hacer, el contrato  (no el cómo)
  *
- * IcARTcONTRACT
- * Extiende a CartManager para que sepa qué debe hacer con als cajas (datos de shoes). Nota, con el
- * SharedPreferences el sólo le dice qué hacer con estas cajas; el que decide qué mostrar y cuando
- * es el PRESENTER, que le solicita al CartManager
  *
  * SharedPreferences
  * Ojetos que implementan una interfaz  (android.content.SharedPreferences)
@@ -18,20 +21,78 @@ package com.lobosmanuel.ev_mod5_mvp.model
  * */
 
 
-object CartManager : ICartContract {
+//object CartManager : CartContract {
+//    private const val CART_KEY = "cart_items"
+//
+//    // Implementa lógica con SharedPreferences
+//    // product es el PARÁMETRO de la función, Shoes es el tipo que recibe
+//
+//    //Recupera lista actual de SharedPrefernces -> Agrega nuevo Shoe -> Convierte a JSON -> Guarda.
+//    override fun addToCart(product: Shoes)    { /* Lógica con GSON */ }
+//
+//    //Recupera String de SharedPrefernces -> Convierte JSON a Lista -> Retorna Lista.
+//    override fun getCartContents(): List<Shoes> { /* Lógica con GSON */ return emptyList() }
+//
+//    //Borra la clave específica en SharedPreferences.
+//    override fun clearCart() { /* Lógica */ }
+//}
+
+/**
+ * CartManager (Modelo / Repositorio)
+ * * Actúa como la "cinta de transporte" de la lógica de negocio para el carrito.
+ * Utiliza el patrón Singleton para asegurar una única fuente de verdad.
+ * Persiste los datos en formato JSON dentro de SharedPreferences.
+ */
+object CartManager {
+    private const val PREFS_NAME = "cart_prefs"
     private const val CART_KEY = "cart_items"
+    private val gson = Gson()
 
-    // Implementa lógica con SharedPreferences
-    // product es el PARÁMETRO de la función, Shoes es el tipo que recibe
+    /**
+     * Obtiene la instancia de SharedPreferences de forma privada.
+     */
+    private fun getPrefs(context: Context): SharedPreferences {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
 
-    //Recupera lista actual de SharedPrefernces -> Agrega nuevo Shoe -> Convierte a JSON -> Guarda.
-    override fun addToCart(product: Shoes)    { /* Lógica con GSON */ }
+    /**
+     * Agrega un producto al almacenamiento persistente.
+     * 1. Recupera la lista actual.
+     * 2. Añade el nuevo objeto [Shoes].
+     * 3. Serializa la lista completa a JSON y guarda.
+     */
+    fun addToCart(context: Context, product: Shoes) {
+        val currentCart = getCartContents(context).toMutableList()
+        currentCart.add(product)
 
-    //Recupera String de SharedPrefernces -> Convierte JSON a Lista -> Retorna Lista.
-    override fun getCartContents(): List<Shoes> { /* Lógica con GSON */ return emptyList() }
+        val json = gson.toJson(currentCart)
+        getPrefs(context).edit().putString(CART_KEY, json).apply()
+    }
 
-    //Borra la clave específica en SharedPreferences.
-    override fun clearCart() { /* Lógica */ }
+    /**
+     * Recupera todos los productos almacenados en el carrito.
+     * Convierte la cadena JSON de SharedPreferences de vuelta a una [List] de [Shoes].
+     * Retorna una lista vacía si no hay datos.
+     */
+    fun getCartContents(context: Context): List<Shoes> {
+        val json = getPrefs(context).getString(CART_KEY, null) ?: return emptyList()
+
+        // TypeToken es necesario para que GSON reconstruya la estructura de la lista genérica
+        val type = object : TypeToken<List<Shoes>>() {}.type
+        return gson.fromJson(json, type)
+    }
+
+    /**
+     * Calcula la suma total de los precios de los productos en el carrito.
+     */
+    fun getTotalPrice(context: Context): Double {
+        return getCartContents(context).sumOf { it.price.toDouble() }
+    }
+
+    /**
+     * Elimina todos los elementos del carrito (Limpia la persistencia).
+     */
+    fun clearCart(context: Context) {
+        getPrefs(context).edit().remove(CART_KEY).apply()
+    }
 }
-
-
