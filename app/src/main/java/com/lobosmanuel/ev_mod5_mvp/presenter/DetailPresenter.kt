@@ -1,6 +1,8 @@
 package com.lobosmanuel.ev_mod5_mvp.presenter
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lobosmanuel.ev_mod5_mvp.model.CartManager
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
@@ -29,16 +31,22 @@ class DetailPresenter(private val view: DetailContract.View) : DetailContract.Pr
      * * @param arguments El conjunto de datos enviados desde el HomeFragment.
      */
     override fun loadProductData(arguments: Bundle?) {
-        // Extracción segura de datos
         val name = arguments?.getString("shoeName")
         val price = arguments?.getDouble("shoePrice")
         val imageUrl = arguments?.getString("shoeImage")
 
-        // Lógica de validación: Solo mostramos el detalle si los datos críticos existen
         if (name != null && price != null && imageUrl != null) {
+
+            lastLoadedShoe = Shoes(
+                id = 0,                    // Un ID genérico ya que el Bundle no lo trae
+                name = name,               // 'name' es String, encaja perfecto
+                price = price,             // 'price' es Double, encaja perfecto
+                description = "Sin descripción disponible", // Campo obligatorio que faltaba
+                imgUrl = imageUrl          // 'imageUrl' es String, encaja perfecto
+            )
+
             view.showProductDetail(name, price, imageUrl)
         } else {
-            // En caso de error en el paso de datos, notificamos a la vista
             view.showError("Error al recuperar la información del producto")
         }
     }
@@ -48,15 +56,18 @@ class DetailPresenter(private val view: DetailContract.View) : DetailContract.Pr
      * (Pendiente de conectar con el CartManager en el paso 2 del sumario).
      */
     override fun addToCart() {
-        // 1. Necesitamos el objeto Shoes.
-        // Podrías guardarlo en una variable de clase cuando se carga en loadProductData
         val currentShoe = lastLoadedShoe
 
         if (currentShoe != null) {
-            // 2. Usamos el contexto de la vista (Fragment) para guardar
-            val context = (view as? Fragment)?.context
+            // En lugar de intentar castear la vista a Fragment (que es arriesgado),
+            // lo ideal sería que addToCart recibiera el Contexto, pero si quieres
+            // probar rápido, usa el contexto del Fragment de esta forma:
+            val context = (view as? Fragment)?.requireContext()
+
             if (context != null) {
                 CartManager.addToCart(context, currentShoe)
+                // Opcional: Avisa al usuario que funcionó
+                Toast.makeText(context, "Añadido: ${currentShoe.name}", Toast.LENGTH_SHORT).show()
             }
         }
     }
