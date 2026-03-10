@@ -7,7 +7,7 @@
     <string name="img_cupcake">imgShoe</string>
     <string name="name_product">Product Name</string>
     <string name="price_product">$ 0 CLP</string>
-    <string name="add_to_cart_btn">Add to cart</string>
+    <string name="buy_button">Buy me!</string>
 
     <string name="size_radio_btn">Talla :</string>
     <string name="color_radio_btn">Color :</string>

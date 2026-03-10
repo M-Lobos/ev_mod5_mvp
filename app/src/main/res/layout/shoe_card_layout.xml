@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/add_to_cart_btn"
+            android:text="@string/buy_button"
             android:textAllCaps="false"
             android:backgroundTint="@color/cupcake_primary"
             android:textColor="@color/button_text"/>

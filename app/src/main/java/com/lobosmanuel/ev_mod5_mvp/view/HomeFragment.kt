@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.lobosmanuel.ev_mod5_mvp.R
 import com.lobosmanuel.ev_mod5_mvp.databinding.FragmentHomeBinding
@@ -79,7 +80,23 @@ class HomeFragment : Fragment(), HomeContract.View {
             },
             onAddClick = { shoe ->
                 // Evento para añadir directamente al carrito desde la lista principal
-                Log.d("MVP_TEST", "Añadiendo al carrito: ${shoe.name}")
+//                Log.d("MVP_TEST", "Añadiendo al carrito: ${shoe.name}")
+                // se corrige ruta, no tiene sentido comprar sin seleccionar detalles de compra
+
+                /**
+                 * Se repite el bumdle de arriba, básicamente es la misma ruta
+                 */
+                val bundle = Bundle().apply {
+                    putString("shoeName", shoe.name)
+                    putDouble("shoePrice", shoe.price.toDouble())
+                    putString("shoeImage", shoe.imgUrl) // Aseguramos que viaje la URL
+                }
+
+                // Ejecutamos la navegación usando la acción definida en nav_graph
+                findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+
+                Toast.makeText(requireContext(), "¡Selecciona color y talla!", Toast.LENGTH_SHORT).show()
+
             }
         )
 
