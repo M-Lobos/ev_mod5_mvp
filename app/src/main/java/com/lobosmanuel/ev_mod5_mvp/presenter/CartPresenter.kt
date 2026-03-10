@@ -59,8 +59,33 @@ class CartPresenter(private val view: CartContract.View) : CartContract.Presente
         // 1. Borra de la lista única del Manager
         CartManager.removeFromCart(context, shoe)
 
-        // 2. RE-CARGA: Esto le envía la lista actualizada al Fragment
+        // 2. recarga: Esto le envía la lista actualizada al Fragment
 
+        loadCartItems(context)
+        // 3. re calcula_: calcula el nuevo total (actual)
+        calculateTotal(context)
+    }
+
+    /**
+     * Incrementa la cantidad de un producto.
+     * Reutiliza la lógica de addToCart del Manager.
+     */
+    override fun increaseQuantity(context: Context, shoe: Shoes) {
+        // 1. El modelo actualiza el dato (Suma 1 y guarda JSON)
+        CartManager.addToCart(context, shoe)
+
+        // 2. Refrescamos todo: Lista, Visibilidad y Total
+        loadCartItems(context)
+    }
+
+    /**
+     * Disminuye la cantidad de un producto.
+     */
+    override fun decreaseQuantity(context: Context, shoe: Shoes) {
+        // 1. El modelo disminuye 1 y guarda JSON
+        CartManager.removeOne(context, shoe)
+
+        // 2. refrescar
         loadCartItems(context)
     }
 }

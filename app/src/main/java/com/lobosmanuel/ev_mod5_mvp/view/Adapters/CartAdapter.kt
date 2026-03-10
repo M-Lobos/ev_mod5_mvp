@@ -2,6 +2,7 @@ package com.lobosmanuel.ev_mod5_mvp.view.Adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lobosmanuel.ev_mod5_mvp.databinding.ItemCartBinding
@@ -9,11 +10,13 @@ import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 
 /**
  * CartAdapter: Gestiona la visualización de los productos en el carrito.
- * Recibe lambdas (onDelete) para mantener la lógica fuera del adaptador.
+ * Ahora maneja incremento, decremento y eliminación total.
  */
 class CartAdapter(
     private val items: List<Shoes>,
-    private val onDeleteClick: (Shoes) -> Unit
+    private val onDeleteClick: (Shoes) -> Unit,
+    private val onPlusClick: (Shoes) -> Unit,
+    private val onMinusClick: (Shoes) -> Unit
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     class CartViewHolder(val binding: ItemCartBinding) : RecyclerView.ViewHolder(binding.root)
@@ -28,24 +31,39 @@ class CartAdapter(
 
         with(holder.binding) {
             txtCartName.text = shoe.name
-            // Mostramos el precio (asumiendo que es Int en tu modelo)
-            // Si quieres el total por item (precio * cantidad), se ajustaría aquí
-            txtQuantity.text = "1"
 
-            // Carga de imagen con Glide
+            // 1. Ahora mostramos la cantidad real desde el objeto Shoes
+            txtQuantity.text = shoe.quantity.toString()
+
+            // 2. Opcional: Mostrar el subtotal del ítem (precio * cantidad)
+            // txtItemTotal.text = "$${shoe.price * shoe.quantity}"
+
             Glide.with(imgCartItem.context)
                 .load(shoe.imgUrl)
                 .into(imgCartItem)
 
-            // Configuración del botón de eliminar
+            // Configuración del botón de eliminar (basurero)
             btnRemoveItem.setOnClickListener {
                 onDeleteClick(shoe)
             }
 
-            // Los botones +/- están en tu XML, por ahora los dejamos como cascarones
-            // o podrías implementar una lógica simple de UI aquí.
-            btnPlus.setOnClickListener { /* Lógica de cantidad */ }
-            btnMinus.setOnClickListener { /* Lógica de cantidad */ }
+            // Lógica de incremento
+            btnPlus.setOnClickListener {
+                onPlusClick(shoe)
+            }
+
+            // Lógica de decremento con validación de Toast
+            btnMinus.setOnClickListener {
+                if (shoe.quantity > 1) {
+                    onMinusClick(shoe)
+                } else {
+                    Toast.makeText(
+                        root.context,
+                        "Usa el basurero para quitar el producto",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 

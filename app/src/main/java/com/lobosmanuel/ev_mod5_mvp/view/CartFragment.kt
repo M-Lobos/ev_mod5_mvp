@@ -60,10 +60,9 @@ class CartFragment : Fragment(), CartContract.View {
         // Al crear el adaptador, le pasamos funciones lambda para manejar los clics
         val adapter = CartAdapter(
             items,
-            onDeleteClick = { shoe ->
-                presenter.removeFromCart(requireContext(), shoe)
-            }
-            // Borra onQuantityChange de aquí si el Adapter no lo tiene en su constructor
+            onDeleteClick = { shoe -> presenter.removeFromCart(requireContext(), shoe) },
+            onPlusClick = { shoe -> presenter.increaseQuantity(requireContext(), shoe) },
+            onMinusClick = { shoe -> presenter.decreaseQuantity(requireContext(), shoe) }
         )
 
         binding.rvCart.adapter = adapter

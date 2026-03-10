@@ -33,5 +33,11 @@ interface CartContract {
 
         // Función para vaciar todo el carrito
         fun emptyCart(context: Context)
+
+        //Función para incrementar una unidad de un producto que ya está en el carrito
+        fun increaseQuantity(context: Context, shoe: Shoes)
+
+        //Función para decrementar una unidad de un producto que ya está en el carrito
+        fun decreaseQuantity(context: Context, shoe: Shoes)
     }
 }

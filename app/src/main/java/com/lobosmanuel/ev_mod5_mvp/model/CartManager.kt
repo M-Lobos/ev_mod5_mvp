@@ -31,8 +31,7 @@ object CartManager {
     private const val CART_KEY = "cart_items"
     private val gson = Gson()
 
-    // Una única lista en memoria para toda la app
-    private val memoryCart = mutableListOf<Shoes>()
+
 
     /**
      * Obtiene la instancia de SharedPreferences de forma privada.
@@ -49,10 +48,22 @@ object CartManager {
      */
     fun addToCart(context: Context, product: Shoes) {
         val currentCart = getCartContents(context).toMutableList()
-        currentCart.add(product)
 
-        val json = gson.toJson(currentCart)
-        getPrefs(context).edit().putString(CART_KEY, json).apply()
+        // 1. Buscamos si el zapato ya existe en la lista (por ID o Nombre)
+        val existingIndex = currentCart.indexOfFirst { it.name == product.name }
+
+            //esta función considera el caso de "añadir" uno para el botón de "+"
+        if (existingIndex != -1) {
+            // 2. Si existe, lo reemplazamos por una COPIA con quantity + 1
+            val existingItem = currentCart[existingIndex]
+            currentCart[existingIndex] = existingItem.copy(quantity = existingItem.quantity + 1)
+        } else {
+            // 3. Si no existe, lo agregamos tal cual (viene con quantity = 1 por defecto)
+            currentCart.add(product)
+        }
+
+        // 4. Guardamos el JSON actualizado
+        saveCart(context, currentCart)
     }
 
     /**
@@ -72,7 +83,7 @@ object CartManager {
      * Calcula la suma total de los precios de los productos en el carrito.
      */
     fun getTotalPrice(context: Context): Double {
-        return getCartContents(context).sumOf { it.price.toDouble() }
+        return getCartContents(context).sumOf { it.price * it.quantity }
     }
 
     /**
@@ -83,7 +94,32 @@ object CartManager {
     }
 
     fun removeFromCart(context: Context, shoe: Shoes) {
-        // Borramos directamente de la lista que vive en memoria
-        memoryCart.removeAll { it.name == shoe.name }
+        val currentCart = getCartContents(context).toMutableList()
+        currentCart.removeAll { it.name == shoe.name }
+        saveCart(context, currentCart) // Usamos la función auxiliar
+    }
+
+    /**
+     * Disminuye en 1 la cantidad. La validación de "no menor a 1"
+     * se hace en el Presenter/Adapter, pero aquí aseguramos la persistencia.
+     */
+    fun removeOne(context: Context, product: Shoes) {
+        val currentCart = getCartContents(context).toMutableList()
+        val index = currentCart.indexOfFirst { it.name == product.name }
+
+        if (index != -1 && currentCart[index].quantity > 1) {
+            val item = currentCart[index]
+            currentCart[index] = item.copy(quantity = item.quantity - 1)
+            saveCart(context, currentCart)
+        }
+    }
+
+    /**
+     * Función auxiliar para centralizar el guardado en SharedPreferences.
+     * Convierte la lista a JSON y la guarda.
+     */
+    private fun saveCart(context: Context, cart: List<Shoes>) {
+        val json = gson.toJson(cart)
+        getPrefs(context).edit().putString(CART_KEY, json).apply()
     }
 }
