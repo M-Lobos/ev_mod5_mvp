@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lobosmanuel.ev_mod5_mvp.databinding.FragmentCartBinding
+import com.lobosmanuel.ev_mod5_mvp.model.CartManager
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 import com.lobosmanuel.ev_mod5_mvp.presenter.CartPresenter
 import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.CartContract
@@ -50,6 +52,21 @@ class CartFragment : Fragment(), CartContract.View {
 
         // 4. Solicitud inicial de datos al Presenter
         presenter.loadCartItems(requireContext())
+
+        // 5. Listener para el botón de pago
+        binding.btnPay.setOnClickListener {
+            // Verificamos si el carrito tiene elementos antes de procesar
+            val items = CartManager.getCartContents(requireContext())
+
+            if (items.isNotEmpty()) {
+                Toast.makeText(requireContext(), "Your payment its being proceced...", Toast.LENGTH_LONG).show()
+
+                // Opcional: Podrías vaciar el carrito después de "pagar"
+                presenter.emptyCart(requireContext())
+            } else {
+                Toast.makeText(requireContext(), "Your cart is empty", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
@@ -87,6 +104,9 @@ class CartFragment : Fragment(), CartContract.View {
         binding.rvCart.visibility = View.GONE
         binding.txtEmptyMessage.visibility = View.VISIBLE
     }
+
+
+
 
     /**
      * Limpieza de referencias para evitar Memory Leaks.
