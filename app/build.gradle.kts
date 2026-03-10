@@ -52,6 +52,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //implementación de Glide
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    // Si usas Kotlin, es mejor usar 'kapt' o 'annotationProcessor' con el grupo correcto
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     //uso de GSON
     implementation("com.google.code.gson:gson:2.10.1")
 }
