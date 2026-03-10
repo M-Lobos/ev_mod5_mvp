@@ -2,4 +2,26 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores principales -->
+    <color name="cupcake_primary">#DC1540</color>      <!-- Rosa principal -->
+    <color name="cupcake_primary_dark">#E85A78</color>
+    <color name="cupcake_secondary">#FFC75F</color>    <!-- Amarillo suave -->
+
+    <!-- Fondo -->
+    <color name="background_soft">#FFF8F2</color>      <!-- Fondo crema pastel -->
+
+    <!-- Tarjeta -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="card_stroke">#F3D1DC</color>
+
+    <!-- Textos -->
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#777777</color>
+
+    <!-- Precio -->
+    <color name="price_color">#FF3E6C</color>
+
+    <!-- Botón -->
+    <color name="button_text">#FFFFFF</color>
 </resources>

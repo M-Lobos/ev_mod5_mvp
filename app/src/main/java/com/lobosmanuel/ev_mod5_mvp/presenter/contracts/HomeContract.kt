@@ -1,4 +1,4 @@
-package com.lobosmanuel.ev_mod5_mvp.presenter
+package com.lobosmanuel.ev_mod5_mvp.presenter.contracts
 
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 

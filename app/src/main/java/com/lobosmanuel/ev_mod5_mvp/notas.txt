@@ -19,9 +19,48 @@ Pasos lógicos
     4) Persistencia en el carrito
 
 
-NOTA:
-En el concepto model, shoes es el modelo de datos del producto(data class), mientras que Cartmanager
+NOTA 1; De los modelos:
+En el concepto, shoes shoes es el modelo de datos del producto(data class), mientras que Cartmanager
 es el modelo de lógica para los datos (repositorio). El presenter implementa la lógica que comunica
-Shoes con la view
+Soes con la view. Así En el MVP, la interfaz es quien posee el contrato del qué hacer (mas no como)
 
 En el mvp la interfaz en sí es el contrato
+
+NOTA 2; Del diseño:
+El shoe_card_layout.xml es el diseño de la tarjeta para cada producto que será desplegado en el HomeFragment
+El fragment_home.xml, es la "repisa"donde se despliegan las tarjetas para ser exhibicas en el homefragment
+    -> El RV es, visualmente el fragment, en la lógica sigue siendo su contenedor
+
+        * LayOut del RV (fragment_home.xml):
+        -> android:id="@+id/rvShoes"
+            Este es el nombre del RV para efectos del código
+
+        -> app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            Le dice a Android que se desea una cuadricula (grid) en lugar de una lista en el RV.
+
+        -> app:spanCount="2"
+        Define 2 "columnas" para el despliegue de las tarjetas.
+
+        -> tools:listitem="@layout/shoe_card_layout":
+        Esta línea es vital, es la que invoca y despliega las tarjetas en el RV
+
+
+    *** Jerarquía de diseño ***
+    -> MainActivity: edificio.
+    -> HomeFragment: piso de ventas.
+    -> RecyclerView: Las estanterías que llenan el piso.
+    -> shoe_card_layout:  cada caja de zapatos.
+
+NOTA 3: De la Conexión; Adapter --> homeFrgarment
+
+    Primero, se le dedica el tiempo al adapter, el fragmento necesita mencionar
+    al adapter dentro de sí (sería como intentar contactar a un empleado que aun
+    no ha sido contratado).
+
+    1) ShoeAdapter es una clase que extiende de una clase android llamada recyclerVeiew.Adapter
+
+
+Una vez que el Adapter existe, vas al Fragmento y simplemente lo "enchufas". Como el Adapter ya está
+definido, el IDE te ayudará con el autocompletado y todo encajará como una pieza de LEGO.
+
+

@@ -2,7 +2,6 @@ package com.lobosmanuel.ev_mod5_mvp.view
 
 import android.os.Bundle
 import android.util.Log
-import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,58 +10,89 @@ import androidx.navigation.fragment.findNavController
 import com.lobosmanuel.ev_mod5_mvp.R
 import com.lobosmanuel.ev_mod5_mvp.databinding.FragmentHomeBinding
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
-import com.lobosmanuel.ev_mod5_mvp.presenter.HomeContract
+import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.HomeContract
 import com.lobosmanuel.ev_mod5_mvp.presenter.HomePresenter
 
-
 /**
- * A simple [Fragment] subclass as the default destination in the navigation.
- *
- * 3) Implementar la interfaz de la vista en el fragment
- *      No olvidar importar la interfaz del contrac HomeContract.View
+ * HomeFragment: Representa la vista principal de la aplicación.
+ * Implementa [HomeContract.View] para recibir datos desde el Presentador.
+ * * Responsabilidades:
+ * 1. Inflar la interfaz de usuario.
+ * 2. Iniciar el Presentador.
+ * 3. Renderizar la lista de productos en el RecyclerView.
+ * 4. Gestionar la navegación hacia el Detalle y el Carrito.
  */
 class HomeFragment : Fragment(), HomeContract.View {
 
-    private lateinit var presenter : HomePresenter
-
+    private lateinit var presenter: HomePresenter
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    /**
+     * Propiedad de acceso seguro al binding.
+     * Solo es válida entre [onCreateView] y [onDestroyView].
+     */
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 4) declarar y definir el presenter  para la vista
+        // Inicializamos el presentador pasando 'this' como la referencia de la Vista
         presenter = HomePresenter(this)
 
-        // 5) iniciar el presentador desde el fragment
+        // Iniciamos la carga de datos (Lógica de negocio delegada al Presentador)
         presenter.start()
-
-
-        //boton que navega del fragmento 1 al 2, actualizar a home y detail
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
     }
 
+    /**
+     * Implementación de la interfaz HomeContract.View.
+     * Recibe la lista de modelos [Shoes] y configura el adaptador del RecyclerView.
+     * * @param products Lista de objetos tipo Shoes provenientes del Presentador.
+     */
+    override fun showProducts(products: List<Shoes>) {
+        Log.d("MVP_TEST", "Renderizando ${products.size} productos en pantalla")
+
+        // Configuración del adaptador con Lambdas para los clics
+        val adapter = ShoeAdapter(
+            shoes = products,
+            onDetailClick = { shoe ->
+                /**
+                 * Paso de datos entre fragmentos:
+                 * Creamos un Bundle con la información necesaria para el Detalle.
+                 * Incluimos la URL de la imagen para que el Detalle pueda cargarla.
+                 */
+                val bundle = Bundle().apply {
+                    putString("shoeName", shoe.name)
+                    putDouble("shoePrice", shoe.price.toDouble())
+                    putString("shoeImage", shoe.imgUrl) // Aseguramos que viaje la URL
+                }
+
+                // Ejecutamos la navegación usando la acción definida en nav_graph
+                findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+            },
+            onAddClick = { shoe ->
+                // Evento para añadir directamente al carrito desde la lista principal
+                Log.d("MVP_TEST", "Añadiendo al carrito: ${shoe.name}")
+            }
+        )
+
+        // Asignamos el adaptador al RecyclerView
+        binding.rvShoes.adapter = adapter
+    }
+
+    /**
+     * Importante: Limpiar el binding al destruir la vista para evitar Memory Leaks,
+     * especialmente necesario en fragmentos.
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun showProducts(products: List<Shoes>){
-        d("MVP_TEST", "Se recibieron ${products.size} productos en la vista")
     }
 }

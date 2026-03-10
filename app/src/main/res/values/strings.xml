@@ -1,11 +1,35 @@
 <resources>
     <string name="app_name">ev_mod5_MVP</string>
     <string name="action_settings">Settings</string>
+    <string name="tool_bar">Nombre y logo app</string>
+
+    <!-- String used on my shoes card  -->
+    <string name="img_cupcake">imgShoe</string>
+    <string name="name_product">Product Name</string>
+    <string name="price_product">$ 0 CLP</string>
+    <string name="add_to_cart_btn">Add to cart</string>
+
+    <string name="size_radio_btn">Talla :</string>
+    <string name="color_radio_btn">Color :</string>
+
+    <string name="radio_btn_38">38</string>
+    <string name="radio_btn_39">39</string>
+    <string name="radio_btn_40">40</string>
+    <string name="radio_btn_41">41</string>
+    <string name="radio_btn_42">42</string>
+
+    <string name="radio_btn_color1">Blanco</string>
+    <string name="radio_btn_color2">Grimdark</string>
+    <string name="radio_btn_color3">Pastel</string>
+    <string name="radio_btn_color4">Navy</string>
+
+
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label">Zapatillas</string>
+    <string name="second_fragment_label">Detalle Compra</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="btn_go_to_cart">Go to may cart</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -43,4 +67,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,35 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/detailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.DetailFragment">
+    android:background="@color/background_soft"
+    android:padding="32dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/imgDetailShoe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/shoe_test_img"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button_second"
+    <TextView
+        android:id="@+id/txtDetailName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Nombre del Producto"
+        android:textColor="@color/text_primary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgDetailShoe" />
+
+    <TextView
+        android:id="@+id/txtDetailPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="$ 0 CLP"
+        android:textColor="@color/price_color"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDetailName" />
+
+    <Button
+        android:id="@+id/btnGoToCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/cupcake_primary"
+        android:text="@string/btn_go_to_cart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnAddToCartDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/cupcake_primary"
+        android:text="Add to cart"
+        android:textColor="@color/button_text"
+        app:layout_constraintBottom_toTopOf="@id/btnGoToCart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/lblSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/size_radio_btn"
+        app:useMaterialThemeColors="false"
+        android:textColor="@color/black"
+        android:alpha="1.0"
+        app:layout_constraintTop_toBottomOf="@id/txtDetailPrice" />
+
+    <RadioGroup
+        android:id="@+id/rgSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/lblSize">
+        <RadioButton
+            android:checked="true"
+            android:id="@+id/rb38"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous"
-            app:layout_constraintBottom_toTopOf="@id/textview_second"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textview_second"
+            android:text="@string/radio_btn_38"
+            android:buttonTint="@color/cupcake_primary"
+            />
+        <RadioButton
+            android:id="@+id/rb39"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lorem_ipsum"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_second" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            android:text="@string/radio_btn_39"
+            android:buttonTint="@color/cupcake_primary"
+            />
+        <RadioButton
+            android:id="@+id/rb40"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_btn_40"
+            android:buttonTint="@color/cupcake_primary"/>
+        <RadioButton
+            android:id="@+id/rb41"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_btn_41"
+            android:buttonTint="@color/cupcake_primary"/>
+        <RadioButton
+            android:id="@+id/rb42"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_btn_42"
+            android:buttonTint="@color/cupcake_primary"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/lblColor"
+        app:useMaterialThemeColors="false"
+        android:textColor="@color/black"
+        android:alpha="1.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/color_radio_btn"
+        app:layout_constraintTop_toBottomOf="@id/rgSize" />
+
+    <RadioGroup
+        android:id="@+id/rgColor"
+        app:useMaterialThemeColors="false"
+        android:textColor="@color/black"
+        android:alpha="1.0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/lblColor">
+        <RadioButton
+            android:id="@+id/color1"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_btn_color1"
+            android:buttonTint="@color/cupcake_primary"
+            />
+        <RadioButton
+            android:id="@+id/color2"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_btn_color2"
+            android:buttonTint="@color/cupcake_primary"
+            />
+        <RadioButton
+            android:id="@+id/color3"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_btn_color3"
+            android:buttonTint="@color/cupcake_primary"
+            android:textColorHighlight="@color/cupcake_secondary"
+            />
+        <RadioButton
+            android:id="@+id/color4"
+            app:useMaterialThemeColors="false"
+            android:textColor="@color/black"
+            android:alpha="1.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_btn_color4"
+            android:buttonTint="@color/cupcake_primary"
+            />
+
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

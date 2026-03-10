@@ -1,15 +1,18 @@
 package com.lobosmanuel.ev_mod5_mvp.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+// revisar esto luego por que está saltando mucho error
+// import android.os.Parcelable
+// import kotlinx.parcelize.Parcelize
 
 /**
  * SHOES
- * Es la caja donde están los datos del producto
+ * Es la caja donde están los datos del producto - es el modelo; el molde del cual se crean los
+ * objetos.
  *
  * DATA CLASS
  * Tipo de clase especializada en almacernar estados y modelar datos por sobre
  * la gestión de operaciones complejas y repetitivas.
+ *
  */
 
 
