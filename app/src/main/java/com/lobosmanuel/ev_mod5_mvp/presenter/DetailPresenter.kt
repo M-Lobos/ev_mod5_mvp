@@ -70,5 +70,7 @@ class DetailPresenter(private val view: DetailContract.View) : DetailContract.Pr
                 Toast.makeText(context, "Añadido: ${currentShoe.name}", Toast.LENGTH_SHORT).show()
             }
         }
+
+
     }
 }

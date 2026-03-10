@@ -1,4 +1,4 @@
-package com.lobosmanuel.ev_mod5_mvp.view
+package com.lobosmanuel.ev_mod5_mvp.view.Adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

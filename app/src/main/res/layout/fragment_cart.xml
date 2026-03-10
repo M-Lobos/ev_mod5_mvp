@@ -3,21 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background_soft">
+    android:background="@color/background_soft"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/layoutSummary"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_cart"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:listitem="@layout/item_cart" />
 
     <TextView
         android:id="@+id/txtEmptyMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tu carrito está vacío"
+        android:text="@string/empty_cart"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:visibility="gone"
@@ -46,13 +57,13 @@
             android:id="@+id/btnEmptyCart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vaciar Carrito" />
+            android:text="@string/btn_mpt_my_cart" />
 
         <Button
             android:id="@+id/btnCheckout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/cupcake_primary"
-            android:text="Pagar" />
+            android:text="@string/btn_purchase" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

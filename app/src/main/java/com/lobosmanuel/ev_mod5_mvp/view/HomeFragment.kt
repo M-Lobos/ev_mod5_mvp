@@ -13,6 +13,7 @@ import com.lobosmanuel.ev_mod5_mvp.databinding.FragmentHomeBinding
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.HomeContract
 import com.lobosmanuel.ev_mod5_mvp.presenter.HomePresenter
+import com.lobosmanuel.ev_mod5_mvp.view.Adapters.ShoeAdapter
 
 /**
  * HomeFragment: Representa la vista principal de la aplicación.
@@ -95,7 +96,8 @@ class HomeFragment : Fragment(), HomeContract.View {
                 // Ejecutamos la navegación usando la acción definida en nav_graph
                 findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
 
-                Toast.makeText(requireContext(), "¡Selecciona color y talla!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "¡Selecciona color y talla!", Toast.LENGTH_SHORT)
+                    .show()
 
             }
         )

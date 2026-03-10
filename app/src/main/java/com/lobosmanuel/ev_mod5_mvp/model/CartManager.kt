@@ -20,23 +20,6 @@ import com.google.gson.reflect.TypeToken
  * implementados por la clase del objeto para cumplir su contrato.
  * */
 
-
-//object CartManager : CartContract {
-//    private const val CART_KEY = "cart_items"
-//
-//    // Implementa lógica con SharedPreferences
-//    // product es el PARÁMETRO de la función, Shoes es el tipo que recibe
-//
-//    //Recupera lista actual de SharedPrefernces -> Agrega nuevo Shoe -> Convierte a JSON -> Guarda.
-//    override fun addToCart(product: Shoes)    { /* Lógica con GSON */ }
-//
-//    //Recupera String de SharedPrefernces -> Convierte JSON a Lista -> Retorna Lista.
-//    override fun getCartContents(): List<Shoes> { /* Lógica con GSON */ return emptyList() }
-//
-//    //Borra la clave específica en SharedPreferences.
-//    override fun clearCart() { /* Lógica */ }
-//}
-
 /**
  * CartManager (Modelo / Repositorio)
  * * Actúa como la "cinta de transporte" de la lógica de negocio para el carrito.
@@ -47,6 +30,9 @@ object CartManager {
     private const val PREFS_NAME = "cart_prefs"
     private const val CART_KEY = "cart_items"
     private val gson = Gson()
+
+    // Una única lista en memoria para toda la app
+    private val memoryCart = mutableListOf<Shoes>()
 
     /**
      * Obtiene la instancia de SharedPreferences de forma privada.
@@ -94,5 +80,10 @@ object CartManager {
      */
     fun clearCart(context: Context) {
         getPrefs(context).edit().remove(CART_KEY).apply()
+    }
+
+    fun removeFromCart(context: Context, shoe: Shoes) {
+        // Borramos directamente de la lista que vive en memoria
+        memoryCart.removeAll { it.name == shoe.name }
     }
 }

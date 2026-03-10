@@ -1,16 +1,16 @@
-package com.lobosmanuel.ev_mod5_mvp.view
+package com.lobosmanuel.ev_mod5_mvp.view.Adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide                     //meter Glide en las deps en build.gradle(module:app)
+import com.bumptech.glide.Glide
 import com.lobosmanuel.ev_mod5_mvp.R
 import com.lobosmanuel.ev_mod5_mvp.databinding.ShoeCardLayoutBinding
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 
 /**
  * Adaptador encargado de gestionar y mostrar la lista de calzado en el RecyclerView.
- * @property shoes          Lista de objetos [Shoes] que se van a mostrar inicialmente.
+ * @property shoes          Lista de objetos [com.lobosmanuel.ev_mod5_mvp.model.Shoes] que se van a mostrar inicialmente.
  * @property onDetailClick  Función de callback para navegar al detalle del producto.
  * @property onAddClick     Función de callback (lambda) que se ejecuta al pulsar el botón "Agregar".
  */

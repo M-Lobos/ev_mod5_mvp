@@ -10,6 +10,7 @@ import com.lobosmanuel.ev_mod5_mvp.databinding.FragmentCartBinding
 import com.lobosmanuel.ev_mod5_mvp.model.Shoes
 import com.lobosmanuel.ev_mod5_mvp.presenter.CartPresenter
 import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.CartContract
+import com.lobosmanuel.ev_mod5_mvp.view.Adapters.CartAdapter
 
 /**
  * CartFragment: Representa la Vista (View) en el patrón MVP para el carrito de compras.

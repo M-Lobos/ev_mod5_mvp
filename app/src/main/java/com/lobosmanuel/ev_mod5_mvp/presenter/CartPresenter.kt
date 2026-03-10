@@ -56,7 +56,11 @@ class CartPresenter(private val view: CartContract.View) : CartContract.Presente
      * y luego se ejecutaría loadCartItems(context) para refrescar la lista.
      */
     override fun removeFromCart(context: Context, shoe: Shoes) {
-        // Lógica de eliminación (Pendiente de implementación en CartManager)
-        // Por ahora cumple con la firma del contrato para evitar errores de compilación.
+        // 1. Borra de la lista única del Manager
+        CartManager.removeFromCart(context, shoe)
+
+        // 2. RE-CARGA: Esto le envía la lista actualizada al Fragment
+
+        loadCartItems(context)
     }
 }
