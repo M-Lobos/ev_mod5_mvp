@@ -64,3 +64,7 @@ Una vez que el Adapter existe, vas al Fragmento y simplemente lo "enchufas". Com
 definido, el IDE te ayudará con el autocompletado y todo encajará como una pieza de LEGO.
 
 
+NOTA 4: DE LOS ERRORES
+Cuando el IDE dice "Overrides nothing" o "Class is not abstract and does not implement abstract member",
+es porque el Contrato dice una cosa y la clase está haciendo otra diferente (falta o se cambió un parámetro
+o falta una función).

@@ -5,56 +5,94 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.lobosmanuel.ev_mod5_mvp.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lobosmanuel.ev_mod5_mvp.databinding.FragmentCartBinding
+import com.lobosmanuel.ev_mod5_mvp.model.Shoes
+import com.lobosmanuel.ev_mod5_mvp.presenter.CartPresenter
+import com.lobosmanuel.ev_mod5_mvp.presenter.contracts.CartContract
 
 /**
- * A simple [Fragment] subclass.
- * Use the [CartFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * CartFragment: Representa la Vista (View) en el patrón MVP para el carrito de compras.
+ * Su única responsabilidad es mostrar la información que el Presenter le entrega
+ * y notificar eventos de usuario.
  */
-class CartFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class CartFragment : Fragment(), CartContract.View {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // ViewBinding: _binding es nullable para liberar la memoria en onDestroyView
+    private var _binding: FragmentCartBinding? = null
+    private val binding get() = _binding!!
+
+    // Referencia al contrato del Presenter
+    private lateinit var presenter: CartContract.Presenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart, container, false)
+    ): View {
+        _binding = FragmentCartBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CartFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CartFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 1. Inicialización del Presenter pasando 'this' como la vista
+        presenter = CartPresenter(this)
+
+        // 2. Configuración del RecyclerView con un LayoutManager lineal
+        binding.rvCart.layoutManager = LinearLayoutManager(requireContext())
+
+        // 3. Listener para el botón de vaciar carrito
+        binding.btnEmptyCart.setOnClickListener {
+            presenter.emptyCart(requireContext())
+        }
+
+        // 4. Solicitud inicial de datos al Presenter
+        presenter.loadCartItems(requireContext())
+    }
+
+    /**
+     * Implementación de CartContract.View:
+     * Recibe la lista y configura el adaptador con los listeners de acción.
+     */
+    override fun showCartList(items: List<Shoes>) {
+        // Al crear el adaptador, le pasamos funciones lambda para manejar los clics
+        val adapter = CartAdapter(
+            items,
+            onDeleteClick = { shoe ->
+                presenter.removeFromCart(requireContext(), shoe)
             }
+            // Borra onQuantityChange de aquí si el Adapter no lo tiene en su constructor
+        )
+
+        binding.rvCart.adapter = adapter
+
+        // Gestión de visibilidad
+        binding.rvCart.visibility = View.VISIBLE
+        binding.txtEmptyMessage.visibility = View.GONE
+    }
+
+    /**
+     * Implementación de CartContract.View: Actualiza el texto del monto total.
+     */
+    override fun updateTotal(total: Double) {
+        // Formateo simple a dos decimales para el precio
+        binding.txtTotalAmount.text = "Total: $${String.format("%.2f", total)} CLP"
+    }
+
+    /**
+     * Implementación de CartContract.View: Gestiona el estado visual cuando no hay productos.
+     */
+    override fun showEmptyState() {
+        binding.rvCart.visibility = View.GONE
+        binding.txtEmptyMessage.visibility = View.VISIBLE
+    }
+
+    /**
+     * Limpieza de referencias para evitar Memory Leaks.
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

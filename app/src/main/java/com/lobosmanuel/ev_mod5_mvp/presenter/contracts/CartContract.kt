@@ -26,9 +26,12 @@ interface CartContract {
         fun loadCartItems(context: Context)
 
         // Lógica para eliminar un producto (opcional por ahora)
-        fun removeFromCart(context: Context, position: Int)
+        fun removeFromCart(context: Context, shoe: Shoes)
 
         // Calcula el total sumando los precios
         fun calculateTotal(context: Context)
+
+        // Función para vaciar todo el carrito
+        fun emptyCart(context: Context)
     }
 }
